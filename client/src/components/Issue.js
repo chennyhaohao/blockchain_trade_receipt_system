@@ -1,9 +1,13 @@
 import sha256 from 'crypto-js/sha256';
 import crypto from 'crypto-js';
 import React, { Component } from 'react';
+import Radium from 'radium';
 import './Issue.css';
+import web3 from 'web3';
 
+//@Radium
 class IssueComponent extends Component {
+
 	state = {
 		hash: "",
 	};
