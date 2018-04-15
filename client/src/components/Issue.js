@@ -1,9 +1,50 @@
+import sha256 from 'crypto-js/sha256';
+import crypto from 'crypto-js';
 import React, { Component } from 'react';
+import './Issue.css';
 
 class IssueComponent extends Component {
+	state = {
+		hash: "",
+	};
+
+	constructor(props) {
+		super(props);
+		this.dropHandler = this.dropHandler.bind(this);
+	}
+
+	dropHandler(e) {
+		e.preventDefault();
+		console.log("File dropped");
+
+		var file = e.dataTransfer.files[0];
+		var reader = new FileReader();
+
+		reader.onload = (e) => {
+			var binary = e.target.result;
+			var hash = sha256(binary);
+			hash = hash.toString(crypto.enc.Base64);
+			console.log(hash);
+			this.setState({hash: hash});
+		};
+
+		reader.readAsBinaryString(file);
+	}
+
 	render() {
 		return (
-			<h>Issue Interface</h>
+			<div className="IssueComponent">
+				<h>Issue Interface</h>
+				<div id="holder" 
+					onDrop = {this.dropHandler}
+					onDragOver = {(e)=>{e.preventDefault();}}
+					onDragEnd = {(e)=>{return false;}}
+				> Drag and drop the receipt file here </div>
+				{
+					this.state.hash === "" ? 
+					"" : <p>Receipt hash: {this.state.hash} </p>
+				}
+			</div>
 		);
 	}
 }
