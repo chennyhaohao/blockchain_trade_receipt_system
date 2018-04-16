@@ -2,6 +2,21 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Routes from './Routes.js';
+import Web3 from 'web3';
+
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+
+var coinbase;
+
+async function init() {
+    try {
+      coinbase = await web3.eth.getCoinbase();
+      console.log("Coinbase:", coinbase);
+    } catch(e) {
+      console.log("Coinbase err: ", e);
+    }
+
+}
 
 class App extends Component {
   render() {
@@ -20,5 +35,7 @@ class App extends Component {
     );
   }
 }
+
+init();
 
 export default App;

@@ -1,0 +1,1 @@
+geth --dev --rpc --rpcport 8545 console --rpcapi personal,web3,eth,miner,net,txpool --rpccorsdomain "http://localhost:3000"
