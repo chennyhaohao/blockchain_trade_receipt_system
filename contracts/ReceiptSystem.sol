@@ -54,7 +54,7 @@ contract ReceiptSystem is Ownable {
 	}
 
 	function registerInstitution(bytes32 name, uint8 insType, address addr) public onlyOwner {
-		lastID++;
+		lastID = lastID.add(1);
 		idToInstitution[lastID] = Institution(lastID, name, InstitutionType(insType));
 		addrToIDs[addr] = lastID;
 	}
@@ -77,14 +77,12 @@ contract ReceiptSystem is Ownable {
 	}
 
 	function claimReceipt(bytes32 hash) public onlyBank hashExists(hash) {
-		//require(receiptHashes[hash].issuedBy != 0); //Must be an issued recepit
 		require(receiptHashes[hash].inPossessionBy == 0); //Must not be already claimed by another institution
 		receiptHashes[hash].inPossessionBy = addrToIDs[msg.sender];
 	}
 
 	function declaimReceipt(bytes32 hash) public onlyBank hashExists(hash) {
-		//require(receiptHashes[hash].issuedBy != 0); //Must be an issued recepit
-		require(receiptHashes[hash].inPossessionBy == addrToIDs[msg.sender]); //Must be claimed by msg.sender
+		require(receiptHashes[hash].inPossessionBy == addrToIDs[msg.sender]); //Must have been claimed by msg.sender
 		receiptHashes[hash].inPossessionBy = 0;
 	}
 
