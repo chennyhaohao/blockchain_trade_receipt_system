@@ -4,6 +4,7 @@ import contract from 'truffle-contract';
 import Receipt_artifacts from './build/contracts/ReceiptSystem.json';
 
 //var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+var web3;
 
 function web3versionFix(abstract) {
 	//Fix truffle compatibility issue with web3 v1.0.0
@@ -20,11 +21,16 @@ function web3versionFix(abstract) {
 class Controller {
 	constructor() {
 		this.ReceiptSystem = contract(Receipt_artifacts);
-		//web3versionFix(this.ReceiptSystem);
-		//web3.eth.getAccounts(console.log);
 	}
 
+	initialize(_web3) { //Initialize the global web3 object
+		web3 = _web3;
+		this.ReceiptSystem.setProvider(web3.currentProvider);
+		web3versionFix(this.ReceiptSystem);
+		web3.eth.getAccounts(console.log);
+	}
 
+	
 }
 
 var controller = new Controller();
