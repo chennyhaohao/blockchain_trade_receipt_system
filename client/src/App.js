@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Routes from './Routes.js';
 import Web3 from 'web3';
+import controller from './contractController.js';
 
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 

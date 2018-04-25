@@ -38,8 +38,9 @@ contract ReceiptSystem is Ownable {
 	} 
 
 	modifier onlyBank() {
-		require(addrToIDs[msg.sender] != 0); //Must be issued by registered institution
+		//require(addrToIDs[msg.sender] != 0); //Must be issued by registered institution
 		uint256 id = addrToIDs[msg.sender];
+		require(id != 0);
 		require(idToInstitution[id].insType == InstitutionType.Bank);
 		_;
 	}
@@ -104,4 +105,5 @@ contract ReceiptSystem is Ownable {
 		name = i.name;
 		insType = uint8(i.insType);
 	}
+
 }
