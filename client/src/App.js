@@ -22,7 +22,7 @@ async function init() {
 
 class App extends Component {
 
-  componentDidMount() {
+  async componentDidMount() {
     if (typeof window.web3 !== 'undefined') {
       console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 MetaCoin, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask")
       // Use Mist/MetaMask's provider
@@ -32,7 +32,7 @@ class App extends Component {
       // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
       this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     }
-
+    await controller.deployReceiptSystem();
     controller.initialize(this.web3);
   }
 
