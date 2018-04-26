@@ -4,7 +4,7 @@ import './App.css';
 import Routes from './Routes.js';
 import Web3 from 'web3';
 import controller from './contractController.js';
-
+import NavigationComponent from './components/Navigation.js';
 //var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 var coinbase;
@@ -69,6 +69,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
+
         <p className="App-intro">
         </p>
 
