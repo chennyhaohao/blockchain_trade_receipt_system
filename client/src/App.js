@@ -29,6 +29,11 @@ class App extends Component {
     insName: "",
   }
 
+  constructor(props) {
+    super(props);
+    this.refresh = this.refresh.bind(this);
+  }
+
   async componentDidMount() {
     if (typeof window.web3 !== 'undefined') {
       console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 MetaCoin, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask")
@@ -43,6 +48,10 @@ class App extends Component {
     await controller.registerInstitution("Bank A", 0, bankAddr);
     await controller.registerInstitution("Warehouse A", 2, warehouseAddr);
     controller.initialize(this.web3);
+    this.refresh();
+  }
+
+  async refresh() {
     this.setState({account: await controller.getAccount()}, 
       () => {
         controller.getInstitution(this.state.account, 
@@ -62,6 +71,8 @@ class App extends Component {
         </header>
         <p className="App-intro">
         </p>
+
+        <button onClick={this.refresh}>refresh</button>
         
         <Routes account={this.state.account} insName={this.state.insName}/>
 

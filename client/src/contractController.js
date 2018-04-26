@@ -90,6 +90,20 @@ class Controller {
 		}
 	}
 
+	async verifyReceipt(hash, fromAddr) {
+		try {
+			console.log("Verifying receipt...");
+			var instance = await this.ReceiptSystem.at(this.ReceiptSystemAddress);
+			var result = await instance.verifyReceipt.call(hash, {
+				from: fromAddr
+			});
+			console.log("Receipt info: ", result);
+	        return result;
+		} catch(e) {
+			throw e;
+		}
+	}
+
 	async getInstitution(addr, fromAddr) {
 		try {
 			var instance = await this.ReceiptSystem.at(this.ReceiptSystemAddress);

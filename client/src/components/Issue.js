@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 import './Issue.css';
 import web3 from 'web3';
+import controller from '../contractController.js';
 
 //@Radium
 class IssueComponent extends Component {
@@ -15,6 +16,8 @@ class IssueComponent extends Component {
 	constructor(props) {
 		super(props);
 		this.dropHandler = this.dropHandler.bind(this);
+		this.issueReceipt = this.issueReceipt.bind(this);
+		this.verifyReceipt = this.verifyReceipt.bind(this);
 	}
 
 	dropHandler(e) {
@@ -35,6 +38,14 @@ class IssueComponent extends Component {
 		reader.readAsBinaryString(file);
 	}
 
+	async issueReceipt() {
+		await controller.issueReceipt(this.state.hash, this.props.account);
+	}
+
+	async verifyReceipt() {
+		await controller.verifyReceipt(this.state.hash, this.props.account);
+	}
+
 	render() {
 		return (
 			<div className="IssueComponent">
@@ -52,6 +63,8 @@ class IssueComponent extends Component {
 					this.state.hash === "" ? 
 					"" : <p>Receipt hash: {this.state.hash} </p>
 				}
+				<button onClick={this.issueReceipt}>Issue Receipt</button>
+				<button onClick={this.verifyReceipt}>verify Receipt</button>
 			</div>
 		);
 	}
