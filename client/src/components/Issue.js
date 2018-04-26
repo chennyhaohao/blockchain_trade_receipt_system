@@ -39,6 +39,10 @@ class IssueComponent extends Component {
 		return (
 			<div className="IssueComponent">
 				<h>Issue Interface</h>
+				<p>Welcome{ !this.props.insName ? "" :
+					", " + this.props.insName}!</p>
+				{ !this.props.account ? "" : 
+					<p>Your account: {this.props.account} </p>}
 				<div id="holder" 
 					onDrop = {this.dropHandler}
 					onDragOver = {(e)=>{e.preventDefault();}}

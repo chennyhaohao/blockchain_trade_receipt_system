@@ -5,10 +5,12 @@ import Issue from './components/Issue.js';
 import Verify from './components/Verify.js';
 
 
-const Routes = () => (
+const Routes = (props) => (
     <BrowserRouter>
         <Switch>
-            <Route path="/issue" component={Issue} />
+            <Route path="/issue" 
+            	render = {() => <Issue account = {props.account} 
+            		insName = {props.insName}/>} />
             <Route path="/verify" component={Verify} />
         </Switch>
     </BrowserRouter>

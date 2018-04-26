@@ -106,4 +106,8 @@ contract ReceiptSystem is Ownable {
 		insType = uint8(i.insType);
 	}
 
+	function getInstitutionByAddr(address addr) public constant 
+	returns(bytes32 name, uint8 insType) {
+		return getInstitution(addrToIDs[addr]);
+	}
 }

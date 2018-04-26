@@ -8,6 +8,8 @@ import controller from './contractController.js';
 //var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 var coinbase;
+var bankAddr = "0xEd586f731CF380Ea09013909eac17FB174CeC483";
+var warehouseAddr = "0x4FA9B933f1Ecaa4986191e570712BED7F1D46077";
 
 /*
 async function init() {
@@ -22,6 +24,11 @@ async function init() {
 
 class App extends Component {
 
+  state = {
+    account: "",
+    insName: "",
+  }
+
   async componentDidMount() {
     if (typeof window.web3 !== 'undefined') {
       console.warn("Using web3 detected from external source. If you find that your accounts don't appear or you have 0 MetaCoin, ensure you've configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask")
@@ -33,7 +40,17 @@ class App extends Component {
       this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     }
     await controller.deployReceiptSystem();
+    await controller.registerInstitution("Bank A", 0, bankAddr);
+    await controller.registerInstitution("Warehouse A", 2, warehouseAddr);
     controller.initialize(this.web3);
+    this.setState({account: await controller.getAccount()}, 
+      () => {
+        controller.getInstitution(this.state.account, 
+          this.state.account)
+          .then( ins => {
+            this.setState({insName: ins.name});
+          });
+      });
   }
 
   render() {
@@ -46,7 +63,7 @@ class App extends Component {
         <p className="App-intro">
         </p>
         
-        <Routes />
+        <Routes account={this.state.account} insName={this.state.insName}/>
 
       </div>
     );

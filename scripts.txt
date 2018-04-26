@@ -1,1 +1,5 @@
 geth --dev --rpc --rpcport 8545 console --rpcapi personal,web3,eth,miner,net,txpool --rpccorsdomain "http://localhost:3000" --networkid 1337
+
+var value = web3.toWei(10, "ether");
+var coinbase = web3.eth.coinbase;
+web3.eth.sendTransaction({from: coinbase, value: value, to: ""});
