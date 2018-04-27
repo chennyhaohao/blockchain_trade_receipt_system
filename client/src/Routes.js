@@ -14,14 +14,14 @@ const NavigationWrapper = (Component) => (props) => {
     );
 }
 
-const Routes = (props) => (
+const Routes = (props) => ( //Behaves like a simple Component class
     <BrowserRouter>
         <Switch>
             <Route path="/issue" 
             	//render = {() => <Issue {...props} /> } />
             	render = {() => NavigationWrapper(Issue)(props) } />
 
-            <Route path="/verify" component={Verify} />
+            <Route path="/verify" render = {() => NavigationWrapper(Verify)(props)} />
         </Switch>
     </BrowserRouter>
 );

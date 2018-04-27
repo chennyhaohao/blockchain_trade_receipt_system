@@ -5,19 +5,20 @@ import Radium from 'radium';
 import './Issue.css';
 import web3 from 'web3';
 import controller from '../contractController.js';
+import Status from './Status.js';
 
 //@Radium
 class IssueComponent extends Component {
 
 	state = {
 		hash: "",
+		status: ""
 	};
 
 	constructor(props) {
 		super(props);
 		this.dropHandler = this.dropHandler.bind(this);
 		this.issueReceipt = this.issueReceipt.bind(this);
-		this.verifyReceipt = this.verifyReceipt.bind(this);
 	}
 
 	dropHandler(e) {
@@ -39,17 +40,21 @@ class IssueComponent extends Component {
 	}
 
 	async issueReceipt() {
-		await controller.issueReceipt(this.state.hash, this.props.account);
+		try {
+			await controller.issueReceipt(this.state.hash, this.props.account);
+			this.setState({status: "Receipt issued!"});
+		} catch(e) {
+			console.log(e);
+			this.setState({status: "Failed to issue receipt."});
+		}
 	}
 
-	async verifyReceipt() {
-		await controller.verifyReceipt(this.state.hash, this.props.account);
-	}
 
 	render() {
 		return (
 			<div className="IssueComponent">
 				<h>Issue Interface</h>
+				<Status status = {this.state.status} />
 				<p>Welcome{ !this.props.insName ? "" :
 					", " + this.props.insName}!</p>
 				{ !this.props.account ? "" : 
@@ -64,7 +69,6 @@ class IssueComponent extends Component {
 					"" : <p>Receipt hash: {this.state.hash} </p>
 				}
 				<button onClick={this.issueReceipt}>Issue Receipt</button>
-				<button onClick={this.verifyReceipt}>verify Receipt</button>
 			</div>
 		);
 	}

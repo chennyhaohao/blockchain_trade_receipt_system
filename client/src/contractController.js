@@ -17,6 +17,10 @@ function web3versionFix(abstract) {
 	}
 }
 
+function bytesToAscii(bytes) { //Convert to string and trim null characters
+	return web3.utils.toAscii(bytes).replace(/\0/g, '');
+}
+
 class Controller {
 
 	constructor() {
@@ -98,7 +102,14 @@ class Controller {
 				from: fromAddr
 			});
 			console.log("Receipt info: ", result);
-	        return result;
+			var ret = {};
+			ret.exists = result[0];
+			ret.issuer = bytesToAscii(result[2]);
+			ret.valid = result[4];
+			ret.possessed = !(result[5].valueOf() == "0");
+			ret.possesser = bytesToAscii(result[6]);
+			console.log(ret);
+	        return ret;
 		} catch(e) {
 			throw e;
 		}
@@ -111,11 +122,22 @@ class Controller {
 				{from: fromAddr});
 			console.log("Got institution: ", result);
 			var ret = {};
-			ret.name = web3.utils.toAscii(result[0]).replace(/\0/g, '');
-			//Convert to string and trim null characters
+			ret.name = bytesToAscii(result[0]);
 			ret.type = result[1].valueOf();
 			console.log(ret);
 			return ret;			
+		} catch(e) {
+			throw e;
+		}
+	}
+
+	async claimReceipt(hash, fromAddr) {
+		try {
+			var instance = await this.ReceiptSystem.at(this.ReceiptSystemAddress);
+			var result = await instance.claimReceipt(hash, 
+				{from: fromAddr, gas: 400000});
+			console.log("Claimed receipt: ", result.tx);
+			return result.tx;			
 		} catch(e) {
 			throw e;
 		}

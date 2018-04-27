@@ -89,7 +89,7 @@ contract ReceiptSystem is Ownable {
 
 	function verifyReceipt(bytes32 hash) public constant 
 		returns (bool exists, uint256 issuerID, bytes32 issuerName, uint256 timestamp,
-		 bool valid, uint256 inPossessionBy) 
+		 bool valid, uint256 inPossessionBy, bytes32 possessorName) 
 	{
 		ReceiptStats storage r = receiptHashes[hash];
 		exists = r.issuedBy != 0 ? true : false;
@@ -98,6 +98,7 @@ contract ReceiptSystem is Ownable {
 		timestamp = r.timestamp;
 		valid = r.valid;
 		inPossessionBy = r.inPossessionBy;
+		possessorName = idToInstitution[inPossessionBy].name;
 	}
 
 	function getInstitution(uint256 id) public constant returns(bytes32 name, uint8 insType) {

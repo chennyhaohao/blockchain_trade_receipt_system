@@ -25,8 +25,8 @@
 #holder {
   margin: auto;
   border: 10px dashed #ccc;
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
 }
 
 #holder.hover {
