@@ -115,17 +115,13 @@ class Controller {
 		}
 	}
 
-	async getInstitution(addr, fromAddr) {
+	async invalidateReceipt(hash, fromAddr) {
 		try {
 			var instance = await this.ReceiptSystem.at(this.ReceiptSystemAddress);
-			var result = await instance.getInstitutionByAddr.call(addr, 
-				{from: fromAddr});
-			console.log("Got institution: ", result);
-			var ret = {};
-			ret.name = bytesToAscii(result[0]);
-			ret.type = result[1].valueOf();
-			console.log(ret);
-			return ret;			
+			var result = await instance.invalidateReceipt(hash, 
+				{from: fromAddr, gas: 400000});
+			console.log("Invalidated receipt: ", result.tx);
+			return result.tx;			
 		} catch(e) {
 			throw e;
 		}
@@ -138,6 +134,22 @@ class Controller {
 				{from: fromAddr, gas: 400000});
 			console.log("Claimed receipt: ", result.tx);
 			return result.tx;			
+		} catch(e) {
+			throw e;
+		}
+	}
+
+	async getInstitution(addr, fromAddr) {
+		try {
+			var instance = await this.ReceiptSystem.at(this.ReceiptSystemAddress);
+			var result = await instance.getInstitutionByAddr.call(addr, 
+				{from: fromAddr});
+			console.log("Got institution: ", result);
+			var ret = {};
+			ret.name = bytesToAscii(result[0]);
+			ret.type = result[1].valueOf();
+			console.log(ret);
+			return ret;			
 		} catch(e) {
 			throw e;
 		}

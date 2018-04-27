@@ -19,6 +19,7 @@ class IssueComponent extends Component {
 		super(props);
 		this.dropHandler = this.dropHandler.bind(this);
 		this.issueReceipt = this.issueReceipt.bind(this);
+		this.invalidateReceipt = this.invalidateReceipt.bind(this);
 	}
 
 	dropHandler(e) {
@@ -49,6 +50,16 @@ class IssueComponent extends Component {
 		}
 	}
 
+	async invalidateReceipt() {
+		try {
+			await controller.invalidateReceipt(this.state.hash, 
+				this.props.account);
+			this.setState({status: "Receipt invalidated!"});
+		} catch(e) {
+			console.log(e);
+			this.setState({status: "Failed to invalidate receipt."});
+		}
+	}
 
 	render() {
 		return (
@@ -69,6 +80,8 @@ class IssueComponent extends Component {
 					"" : <p>Receipt hash: {this.state.hash} </p>
 				}
 				<button onClick={this.issueReceipt}>Issue Receipt</button>
+				<button onClick={this.invalidateReceipt}>invalidate Receipt</button>
+				<br />
 			</div>
 		);
 	}

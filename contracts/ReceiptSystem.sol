@@ -79,6 +79,7 @@ contract ReceiptSystem is Ownable {
 
 	function claimReceipt(bytes32 hash) public onlyBank hashExists(hash) {
 		require(receiptHashes[hash].inPossessionBy == 0); //Must not be already claimed by another institution
+		require(receiptHashes[hash].valid); //Must still be valid
 		receiptHashes[hash].inPossessionBy = addrToIDs[msg.sender];
 	}
 
