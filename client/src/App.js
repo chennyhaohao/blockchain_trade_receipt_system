@@ -5,6 +5,7 @@ import Routes from './Routes.js';
 import Web3 from 'web3';
 import controller from './contractController.js';
 import NavigationComponent from './components/Navigation.js';
+import {Button, Glyphicon} from 'react-bootstrap';
 //var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 var coinbase;
@@ -52,14 +53,18 @@ class App extends Component {
   }
 
   async refresh() {
-    this.setState({account: await controller.getAccount()}, 
-      () => {
-        controller.getInstitution(this.state.account, 
-          this.state.account)
-          .then( ins => {
-            this.setState({insName: ins.name});
-          });
-      });
+    try {
+        this.setState({account: await controller.getAccount()}, 
+              () => {
+                controller.getInstitution(this.state.account, 
+                  this.state.account)
+                  .then( ins => {
+                    this.setState({insName: ins.name});
+                  });
+              });
+      } catch(e) {
+        console.log(e);
+      }
   }
 
   render() {
@@ -73,7 +78,9 @@ class App extends Component {
         <p className="App-intro">
         </p>
 
-        <button onClick={this.refresh}>refresh</button>
+        <Button onClick={this.refresh}>
+          <Glyphicon glyph="refresh" />refresh
+        </Button>
         
         <Routes account={this.state.account} insName={this.state.insName}/>
 

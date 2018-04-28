@@ -13,16 +13,16 @@ class NavLink extends Link {
 
 class NavigationComponent extends React.Component {
     render() {
-    	var activeKey = null;
+    	//var activeKey = null;
     	//console.log(window.location);
     	/*if (window.location.href.includes('/verify')) {
     		activeKey = 0;
     	} else if (window.location.href.includes('/issue')) {
     		activeKey = 1;
     	}*/
-    	console.log(activeKey);
+    	//console.log(activeKey);
         return (
-            <Nav bsStyle="tabs" activeKey={activeKey}>
+            <Nav bsStyle="tabs">
                 
                 <LinkContainer to="/verify">
                 	<NavItem eventKey = {0}>Verification Interface</NavItem>

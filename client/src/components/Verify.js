@@ -8,6 +8,8 @@ import controller from '../contractController.js';
 import Status from './Status.js';
 import Welcome from './Welcome.js';
 import FileHolder from './FileHolder.js';
+import {Button, Glyphicon} from 'react-bootstrap';
+
 
 class VerifyComponent extends Component {
 
@@ -92,8 +94,12 @@ class VerifyComponent extends Component {
 					this.state.hash === "" ? 
 					"" : <p>Receipt hash: {this.state.hash} </p>
 				}
-				<button onClick={this.verifyReceipt}>verify receipt</button>
-				<button onClick={this.claimReceipt}>claim receipt</button><br />
+				<Button onClick={this.verifyReceipt}>
+					<Glyphicon glyph="check" />verify receipt
+				</Button>
+				<Button onClick={this.claimReceipt}>
+					<Glyphicon glyph="download" />claim receipt
+				</Button><br />
 				{this.renderResult()}
 			</div>
 		);

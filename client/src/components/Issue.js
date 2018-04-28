@@ -8,6 +8,7 @@ import controller from '../contractController.js';
 import Status from './Status.js';
 import Welcome from './Welcome.js';
 import FileHolder from './FileHolder.js';
+import {Button, Glyphicon} from 'react-bootstrap';
 
 //@Radium
 class IssueComponent extends Component {
@@ -74,8 +75,12 @@ class IssueComponent extends Component {
 					this.state.hash === "" ? 
 					"" : <p>Receipt hash: {this.state.hash} </p>
 				}
-				<button onClick={this.issueReceipt}>Issue Receipt</button>
-				<button onClick={this.invalidateReceipt}>invalidate Receipt</button>
+				<Button onClick={this.issueReceipt}>
+					<Glyphicon glyph="upload" />Issue Receipt
+				</Button>
+				<Button onClick={this.invalidateReceipt}>
+					<Glyphicon glyph="remove" />invalidate Receipt
+				</Button>
 				<br />
 			</div>
 		);
