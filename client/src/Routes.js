@@ -14,7 +14,9 @@ const NavigationWrapper = (Component) => (props) => {
     );
 }
 
-const Routes = (props) => ( //Behaves like a simple Component class
+const Routes = (props) => { 
+    //console.log(props);
+    return ( //Behaves like a simple Component class
     <BrowserRouter>
         <Switch>
             <Route path="/issue" 
@@ -25,5 +27,6 @@ const Routes = (props) => ( //Behaves like a simple Component class
         </Switch>
     </BrowserRouter>
 );
+}
 
 export default Routes;
