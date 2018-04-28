@@ -6,6 +6,8 @@ import './Issue.css';
 import web3 from 'web3';
 import controller from '../contractController.js';
 import Status from './Status.js';
+import Welcome from './Welcome.js';
+import FileHolder from './FileHolder.js';
 
 class VerifyComponent extends Component {
 
@@ -84,15 +86,8 @@ class VerifyComponent extends Component {
 			<div className="VerifyComponent">
 				<h>Verify Interface</h>
 				<Status status = {this.state.status} />
-				<p>Welcome{ !this.props.insName ? "" :
-					", " + this.props.insName}!</p>
-				{ !this.props.account ? "" : 
-					<p>Your account: {this.props.account} </p>}
-				<div id="holder" 
-					onDrop = {this.dropHandler}
-					onDragOver = {(e)=>{e.preventDefault();}}
-					onDragEnd = {(e)=>{return false;}}
-				> Drag and drop the receipt file here </div>
+				<Welcome {...this.props} />
+				<FileHolder dropHandler = {this.dropHandler} />
 				{
 					this.state.hash === "" ? 
 					"" : <p>Receipt hash: {this.state.hash} </p>
