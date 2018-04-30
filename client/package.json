@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^4.1.1",
     "crypto-js": "^3.1.9-1",
     "radium": "^0.24.0",
     "react": "^16.3.1",
