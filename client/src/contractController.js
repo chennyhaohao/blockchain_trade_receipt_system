@@ -79,13 +79,13 @@ class Controller {
 		}
 	}
 
-	async issueReceipt(hash, fromAddr) {
+	async issueReceipt(hash, algo, fromAddr) {
 		try {
 			console.log("Issuing receipt...");
 			var instance = await this.ReceiptSystem.at(this.ReceiptSystemAddress);
-			var result = await instance.issueReceipt(hash, {
+			var result = await instance.issueReceipt(hash, algo, {
 				from: fromAddr,
-				gas: 400000
+				//gas: 400000
 			});
 			console.log("Receipt issued. Tx: ", result.tx);
 	        return result.tx;

@@ -6,21 +6,22 @@ import './SafeMath.sol';
 contract ReceiptSystem is Ownable {
 	using SafeMath for uint256;
 
-	enum InstitutionType {
+	enum InstitutionType { //Types of institutions
 		Bank,
 		Shipping,
 		Warehouse,
 		Trader
 	}
 
-	struct Institution {
+	struct Institution { //Data structure for institution info
 		uint256 id;
 		bytes32 name;
 		InstitutionType insType;
 	}
 
-	struct ReceiptStats {
+	struct ReceiptStats { //Receipt data
 		bytes32 hash;
+		bytes16 algorithm; //Hashing algorithm
 		uint256 issuedBy;
 		uint256 inPossessionBy;
 		uint256 timestamp;
@@ -38,9 +39,8 @@ contract ReceiptSystem is Ownable {
 	} 
 
 	modifier onlyBank() {
-		//require(addrToIDs[msg.sender] != 0); //Must be issued by registered institution
 		uint256 id = addrToIDs[msg.sender];
-		require(id != 0);
+		require(id != 0); //Must be issued by registered institution
 		require(idToInstitution[id].insType == InstitutionType.Bank);
 		_;
 	}
@@ -60,34 +60,41 @@ contract ReceiptSystem is Ownable {
 		addrToIDs[addr] = lastID;
 	}
 
-	function issueReceipt(bytes32 hash) public onlyInstitution {
+	//Issuer publish receipt hash
+	function issueReceipt(bytes32 hash, bytes16 algo) public onlyInstitution {
 		require(receiptHashes[hash].issuedBy == 0); //Cannot re-issue
-		receiptHashes[hash] = ReceiptStats(hash, addrToIDs[msg.sender], 0, now, true);
+		receiptHashes[hash] = ReceiptStats(hash, algo, addrToIDs[msg.sender], 
+			0, now, true);
 	}
 
-	function invalidateReceipt(bytes32 hash) public onlyInstitution {
+	//Issuer invalidate receipt after goods are moved out
+	function invalidateReceipt(bytes32 hash) public onlyInstitution { 
 		uint256 issuer = receiptHashes[hash].issuedBy;
 		require(issuer == addrToIDs[msg.sender]); //Must be by issuer
 		receiptHashes[hash].valid = false;
 	}
 
+	//Issuer redo invalidation if mistake was made
 	function validateReceipt(bytes32 hash) public onlyInstitution {
 		uint256 issuer = receiptHashes[hash].issuedBy;
 		require(issuer == addrToIDs[msg.sender]); //Must be by issuer
 		receiptHashes[hash].valid = true;
 	}
 
+	//Bank temporarity claim receipt after granting a loan
 	function claimReceipt(bytes32 hash) public onlyBank hashExists(hash) {
 		require(receiptHashes[hash].inPossessionBy == 0); //Must not be already claimed by another institution
 		require(receiptHashes[hash].valid); //Must still be valid
 		receiptHashes[hash].inPossessionBy = addrToIDs[msg.sender];
 	}
 
+	//Bank releasing the receipt after loan is repaid
 	function declaimReceipt(bytes32 hash) public onlyBank hashExists(hash) {
 		require(receiptHashes[hash].inPossessionBy == addrToIDs[msg.sender]); //Must have been claimed by msg.sender
 		receiptHashes[hash].inPossessionBy = 0;
 	}
 
+	//Bank verify receipt information with hash
 	function verifyReceipt(bytes32 hash) public constant 
 		returns (bool exists, uint256 issuerID, bytes32 issuerName, uint256 timestamp,
 		 bool valid, uint256 inPossessionBy, bytes32 possessorName) 
@@ -102,12 +109,14 @@ contract ReceiptSystem is Ownable {
 		possessorName = idToInstitution[inPossessionBy].name;
 	}
 
+	//Get institution information by id
 	function getInstitution(uint256 id) public constant returns(bytes32 name, uint8 insType) {
 		Institution storage i = idToInstitution[id]; 
 		name = i.name;
 		insType = uint8(i.insType);
 	}
 
+	//Get institution information by Ethereum address
 	function getInstitutionByAddr(address addr) public constant 
 	returns(bytes32 name, uint8 insType) {
 		return getInstitution(addrToIDs[addr]);

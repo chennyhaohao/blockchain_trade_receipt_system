@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 
 class FileHolderComponent extends Component {
 	state = {
-			margin: "auto",
-			border: "10px dashed #ccc",
-			width: "150px",
-			height: "150px"
-		};
+		margin: "auto",
+		border: "10px dashed #ccc",
+		width: "150px",
+		height: "150px"
+	};
 	render() {
 		return (		
 			<div id="holder" 

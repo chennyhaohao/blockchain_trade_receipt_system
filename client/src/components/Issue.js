@@ -45,7 +45,8 @@ class IssueComponent extends Component {
 
 	async issueReceipt() {
 		try {
-			await controller.issueReceipt(this.state.hash, this.props.account);
+			await controller.issueReceipt(this.state.hash, 
+				"sha256", this.props.account);
 			this.setState({status: "Receipt issued!"});
 		} catch(e) {
 			console.log(e);
