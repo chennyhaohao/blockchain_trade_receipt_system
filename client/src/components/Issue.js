@@ -68,7 +68,7 @@ class IssueComponent extends Component {
 	render() {
 		return (
 			<div className="IssueComponent">
-				<h>Issue Interface</h>
+				<h4>Issue Interface</h4>
 				<Status status = {this.state.status} />
 				<Welcome {...this.props} />
 				<FileHolder dropHandler = {this.dropHandler} />

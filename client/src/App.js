@@ -11,6 +11,7 @@ import {Button, Glyphicon} from 'react-bootstrap';
 
 var coinbase;
 var bankAddr = "0xEd586f731CF380Ea09013909eac17FB174CeC483";
+var bankBAddr = "0x6B8aF7a83029238352129f98D9602aDb54d437Dd";
 var warehouseAddr = "0x4FA9B933f1Ecaa4986191e570712BED7F1D46077";
 
 /*
@@ -47,8 +48,12 @@ class App extends Component {
       this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     }
     await controller.deployReceiptSystem();
-    await controller.registerInstitution("Bank A", 0, bankAddr);
-    await controller.registerInstitution("Warehouse A", 2, warehouseAddr);
+    var jobs = [
+      controller.registerInstitution("Bank A", 0, bankAddr),
+      controller.registerInstitution("Bank B", 0, bankBAddr),
+      controller.registerInstitution("Warehouse A", 2, warehouseAddr)
+    ]; 
+    await Promise.all(jobs);
     controller.initialize(this.web3);
     this.refresh();
   }

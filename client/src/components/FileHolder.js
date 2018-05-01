@@ -5,7 +5,10 @@ class FileHolderComponent extends Component {
 		margin: "auto",
 		border: "10px dashed #ccc",
 		width: "150px",
-		height: "150px"
+		height: "150px",
+		textAlign: "center",
+		verticalAlign: "middle",
+		//lineHeight: "120px"
 	};
 	render() {
 		return (		
@@ -16,7 +19,7 @@ class FileHolderComponent extends Component {
 				onDragEnd = {(e)=>{return false;}}
 				onMouseOver = {(e)=>{this.setState({border:"10px dashed #333"});}}
 				onMouseOut = {(e)=>{this.setState({border:"10px dashed #ccc"});}}
-			> Drag and drop the receipt file here </div>
+			> <i>Drag and drop the receipt file here</i> </div>
 		);
 	}
 }

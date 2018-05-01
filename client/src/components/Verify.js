@@ -74,10 +74,10 @@ class VerifyComponent extends Component {
 
 		return (
 			<div className="results">
-				Issued by: {result.issuer} <br />
-				Valid: {result.valid ? "Yes" : "No"} <br />
-				{result.possessed ? "Currently in possession of: "+result.possesser
-				 : ""}
+				<b>Issued by:</b> {result.issuer} <br />
+				<b>Valid:</b> {result.valid ? "Yes" : "No"} <br />
+				{result.possessed ? <span> <b>Currently in possession of: </b> 
+					{result.possesser} </span> : ""}
 			</div>
 		);
 
@@ -86,7 +86,7 @@ class VerifyComponent extends Component {
 	render() {
 		return (
 			<div className="VerifyComponent">
-				<h>Verify Interface</h>
+				<h4>Verify Interface</h4>
 				<Status status = {this.state.status} />
 				<Welcome {...this.props} />
 				<FileHolder dropHandler = {this.dropHandler} />
